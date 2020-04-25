@@ -5,7 +5,7 @@ BOARD_SUB = atmega2560
 
 TARGET       = main
 ARDUINO_LIBS = Adafruit_NeoPixel
-USER_LIB_PATH := /home/user/Arduino/libraries
+USER_LIB_PATH := ../libraries
 
 CPPFLAGS += -std=gnu++1y
 
