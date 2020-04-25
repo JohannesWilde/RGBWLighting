@@ -6,4 +6,4 @@
 /usr/share/arduino/libraries/SD
 
 # user libraries
-/home/user/Arduino/libraries/Adafruit_NeoPixel
+./libraries/Adafruit_NeoPixel
