@@ -1,0 +1,9 @@
+# board specific include - here Arduino Mega with Atmega2560
+/usr/share/arduino/hardware/arduino/cores/arduino
+/usr/share/arduino/hardware/arduino/variants/mega
+
+# global libraries
+/usr/share/arduino/libraries/SD
+
+# user libraries
+/home/user/Arduino/libraries/Adafruit_NeoPixel
