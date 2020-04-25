@@ -21,7 +21,7 @@ void rainbowFade2White(int wait, int rainbowLoops, int whiteLoops);
 #define LED_COUNT  10
 
 // NeoPixel brightness, 0 (min) to 255 (max)
-#define BRIGHTNESS 100
+#define BRIGHTNESS 50
 
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
@@ -44,7 +44,7 @@ void setup() {
 
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  strip.setBrightness(BRIGHTNESS); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
 void loop() {
