@@ -1,11 +1,11 @@
 ARDUINO_DIR  = /usr/share/arduino
 
-ARDUINO_VERSION = 105
 BOARD_TAG = mega
 BOARD_SUB = atmega2560
 
 TARGET       = main
-ARDUINO_LIBS =
+ARDUINO_LIBS = Adafruit_NeoPixel
+USER_LIB_PATH := /home/user/Arduino/libraries
 
 CPPFLAGS += -std=gnu++1y
 
