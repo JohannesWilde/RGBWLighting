@@ -70,9 +70,9 @@ double brightnessFunctionLinear(double x)
 
 double brightnessFunctionMountain(double const x)
 {
-    double const halfWidthHalfMaximum = 1.;
+    double const halfWidthHalfMaximum = .5;
     double const halfWidthHalfMaximumSqrt = sqrt(halfWidthHalfMaximum);
-    double const normalization = 2 * atan(1./(2 * halfWidthHalfMaximumSqrt));
+    double const normalization = 2. * atan(1./(2 * halfWidthHalfMaximumSqrt));
     return atan(x/halfWidthHalfMaximumSqrt) / normalization;
 }
 
@@ -88,23 +88,31 @@ void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     unsigned long const startTime = millis();
     unsigned long deltaTime = 0;
-    for (unsigned long curTime = millis(); deltaTime < totalTimeMs;)
+    while (deltaTime < totalTimeMs)
     {
-        curTime = millis();
+        unsigned long const curTime = 1; // millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        double previousBrightness = brightnessFunctionMountain(normalizePosition(0. - deltaTimeDouble, numberOfPixelsDouble)-.5);
         for(unsigned i=0; i < numberOfPixels; ++i)
         {
             double const normalizedPosition = normalizePosition(static_cast<double>(i) - deltaTimeDouble, numberOfPixelsDouble);
+            double const previousBrightness = brightnessFunctionMountain(normalizedPosition-.5);
             double const nextBrightness = brightnessFunctionMountain(normalizedPosition+.5);
 
-            uint32_t const colorMod = strip.Color(0,
-                                                  0,
-                                                  0,
-                                                  strip.gamma8(static_cast<uint8_t>(255. * (nextBrightness - previousBrightness))));
-            strip.setPixelColor(i, colorMod);
-            previousBrightness = nextBrightness;
+            double const difference = nextBrightness - previousBrightness;
+            if (difference < 0)
+            {
+                strip.setPixelColor(i, strip.Color(255,0,0));
+            }
+            else {
+                uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
+
+                uint32_t const colorMod = strip.Color(0,
+                                                      0,
+                                                      0,
+                                                      strip.gamma8(colorVal));
+                strip.setPixelColor(i, colorMod);
+            }
         }
         strip.show();
     }
