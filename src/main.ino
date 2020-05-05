@@ -60,7 +60,7 @@ void loop() {
 //  pulseWhite(5);
 
 //  rainbowFade2White(3, 3, 1);
-    colorRotate(strip.Color(255,   0,   0), 1000, 100); // Red
+    colorRotate(strip.Color(255,   0,   0), 1000, 10000); // Red
 }
 
 double brightnessFunctionLinear(double x)
@@ -82,26 +82,27 @@ double normalizePosition(double const position, double const range)
     return fmod(fmod(position, range) + range, range) - (range / 2.);
 }
 
-void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const waitTimeMs)
+void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const totalTimeMs)
 {
     unsigned numberOfPixels = strip.numPixels();
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
-    for (unsigned currentLoopNumber = 0; currentLoopNumber < numberOfLoops; ++currentLoopNumber)
+    unsigned long const startTime = millis();
+    for (unsigned long curTime = millis(); (curTime - startTime) < totalTimeMs; curTime = millis())
     {
         for(unsigned i=0; i < numberOfPixels; ++i)
         {
+            double const posBefore = normalizePosition(static_cast<double>(i) - .5 - static_cast<double>(curTime - startTime) / 500., numberOfPixelsDouble);
+            double const posAfter = normalizePosition(static_cast<double>(i) + .5 - static_cast<double>(curTime - startTime) / 500., numberOfPixelsDouble);;
+
             uint32_t const colorMod = strip.Color(0,
                                                   0,
                                                   0,
                                                   strip.gamma8(static_cast<uint8_t>(255. *
-(brightnessFunctionMountain(normalizePosition(static_cast<double>(i - currentLoopNumber), numberOfPixelsDouble)) -
-            brightnessFunctionMountain(normalizePosition(static_cast<double>(i - 1 - currentLoopNumber), numberOfPixelsDouble))
+                (brightnessFunctionMountain(posAfter) - brightnessFunctionMountain(posBefore)
                                                                                             ))));
             strip.setPixelColor(i, colorMod);
             strip.show();
         }
-
-        delay(waitTimeMs);
     }
 }
 
