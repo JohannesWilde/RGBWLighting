@@ -87,20 +87,23 @@ void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned c
     unsigned numberOfPixels = strip.numPixels();
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     unsigned long const startTime = millis();
-    for (unsigned long curTime = millis(); (curTime - startTime) < totalTimeMs; curTime = millis())
+    unsigned long deltaTime = 0;
+    for (unsigned long curTime = millis(); deltaTime < totalTimeMs; curTime = millis(), deltaTime = (curTime - startTime))
     {
+        double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
+        double previousPos = normalizePosition(static_cast<double>(0) - .5 - deltaTimeDouble, numberOfPixelsDouble);
         for(unsigned i=0; i < numberOfPixels; ++i)
         {
-            double const posBefore = normalizePosition(static_cast<double>(i) - .5 - static_cast<double>(curTime - startTime) / 500., numberOfPixelsDouble);
-            double const posAfter = normalizePosition(static_cast<double>(i) + .5 - static_cast<double>(curTime - startTime) / 500., numberOfPixelsDouble);;
+            double const nextPos = normalizePosition(static_cast<double>(i) + .5 - deltaTimeDouble, numberOfPixelsDouble);
 
             uint32_t const colorMod = strip.Color(0,
                                                   0,
                                                   0,
                                                   strip.gamma8(static_cast<uint8_t>(255. *
-                (brightnessFunctionMountain(posAfter) - brightnessFunctionMountain(posBefore)
+                (brightnessFunctionMountain(nextPos) - brightnessFunctionMountain(previousPos)
                                                                                             ))));
             strip.setPixelColor(i, colorMod);
+            previousPos = nextPos;
             strip.show();
         }
     }
