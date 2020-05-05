@@ -12,6 +12,7 @@ void colorWipe(uint32_t color, int wait);
 void whiteOverRainbow(int whiteSpeed, int whiteLength);
 void pulseWhite(uint8_t wait);
 void rainbowFade2White(int wait, int rainbowLoops, int whiteLoops);
+void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const waitTimeMs);
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
@@ -49,17 +50,46 @@ void setup() {
 
 void loop() {
   // Fill along the length of the strip in various colors...
-  colorWipe(strip.Color(255,   0,   0)     , 50); // Red
-  colorWipe(strip.Color(  0, 255,   0)     , 50); // Green
-  colorWipe(strip.Color(  0,   0, 255)     , 50); // Blue
-  colorWipe(strip.Color(  0,   0,   0, 255), 50); // True white (not RGB white)
+//  colorWipe(strip.Color(255,   0,   0)     , 50); // Red
+//  colorWipe(strip.Color(  0, 255,   0)     , 50); // Green
+//  colorWipe(strip.Color(  0,   0, 255)     , 50); // Blue
+//  colorWipe(strip.Color(  0,   0,   0, 255), 50); // True white (not RGB white)
 
-  whiteOverRainbow(75, 5);
+//  whiteOverRainbow(75, 5);
 
-  pulseWhite(5);
+//  pulseWhite(5);
 
-  rainbowFade2White(3, 3, 1);
+//  rainbowFade2White(3, 3, 1);
+    colorRotate(strip.Color(255,   0,   0), 1000, 100); // Red
 }
+
+double brightnessFunctionLinear(double x)
+{
+    return x;
+}
+
+void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const waitTimeMs)
+{
+    unsigned numberOfPixels = strip.numPixels();
+    double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
+    for (unsigned currentLoopNumber = 0; currentLoopNumber < numberOfLoops; ++currentLoopNumber)
+    {
+        for(unsigned i=0; i < numberOfPixels; ++i)
+        {
+            uint32_t const colorMod = strip.Color(0,
+                                                  0,
+                                                  0,
+                                                  strip.gamma8(static_cast<uint8_t>(255. * brightnessFunctionLinear(
+                                                                                 static_cast<double>((i - currentLoopNumber) % numberOfPixels) / numberOfPixelsDouble // underflow!
+                                                                                 ))));
+            strip.setPixelColor(i, colorMod);
+            strip.show();
+        }
+
+        delay(waitTimeMs);
+    }
+}
+
 
 // Fill strip pixels one after another with a color. Strip is NOT cleared
 // first; anything there will be covered pixel by pixel. Pass in color
