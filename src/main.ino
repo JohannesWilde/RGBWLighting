@@ -60,7 +60,7 @@ void loop() {
 //  pulseWhite(5);
 
 //  rainbowFade2White(3, 3, 1);
-    colorRotate(strip.Color(255,   0,   0), 10000); // Red
+    colorRotate(strip.Color(255,   0,   0), 5000); // Red
 }
 
 double brightnessFunctionLinear(double x)
@@ -93,17 +93,18 @@ void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
         curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
+        double previousBrightness = brightnessFunctionMountain(normalizePosition(0. - deltaTimeDouble, numberOfPixelsDouble)-.5);
         for(unsigned i=0; i < numberOfPixels; ++i)
         {
             double const normalizedPosition = normalizePosition(static_cast<double>(i) - deltaTimeDouble, numberOfPixelsDouble);
+            double const nextBrightness = brightnessFunctionMountain(normalizedPosition+.5);
 
             uint32_t const colorMod = strip.Color(0,
                                                   0,
                                                   0,
-                                                  strip.gamma8(static_cast<uint8_t>(255. *
-                (brightnessFunctionMountain(normalizedPosition+.5) - brightnessFunctionMountain(normalizedPosition-.5)
-                                                                                            ))));
+                                                  strip.gamma8(static_cast<uint8_t>(255. * (nextBrightness - previousBrightness))));
             strip.setPixelColor(i, colorMod);
+            previousBrightness = nextBrightness;
         }
         strip.show();
     }
