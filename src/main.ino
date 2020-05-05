@@ -90,7 +90,7 @@ void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
     unsigned long deltaTime = 0;
     while (deltaTime < totalTimeMs)
     {
-        unsigned long const curTime = 1; // millis();
+        unsigned long const curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
         for(unsigned i=0; i < numberOfPixels; ++i)
@@ -100,19 +100,14 @@ void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
             double const nextBrightness = brightnessFunctionMountain(normalizedPosition+.5);
 
             double const difference = nextBrightness - previousBrightness;
-            if (difference < 0)
-            {
-                strip.setPixelColor(i, strip.Color(255,0,0));
-            }
-            else {
-                uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
 
-                uint32_t const colorMod = strip.Color(0,
-                                                      0,
-                                                      0,
-                                                      strip.gamma8(colorVal));
-                strip.setPixelColor(i, colorMod);
-            }
+            uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
+
+            uint32_t const colorMod = strip.Color(0,
+                                                  0,
+                                                  0,
+                                                  strip.gamma8(colorVal));
+            strip.setPixelColor(i, colorMod);
         }
         strip.show();
     }
