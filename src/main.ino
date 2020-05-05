@@ -104,8 +104,8 @@ void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned c
                                                                                             ))));
             strip.setPixelColor(i, colorMod);
             previousPos = nextPos;
-            strip.show();
         }
+        strip.show();
     }
 }
 
