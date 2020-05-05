@@ -70,7 +70,7 @@ double brightnessFunctionLinear(double x)
 
 double brightnessFunctionMountain(double const x)
 {
-    double const halfWidthHalfMaximum = .5;
+    double const halfWidthHalfMaximum = 1.;
     double const halfWidthHalfMaximumSqrt = sqrt(halfWidthHalfMaximum);
     double const normalization = 2. * atan(1./(2 * halfWidthHalfMaximumSqrt));
     return atan(x/halfWidthHalfMaximumSqrt) / normalization;
