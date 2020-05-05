@@ -12,7 +12,7 @@ void colorWipe(uint32_t color, int wait);
 void whiteOverRainbow(int whiteSpeed, int whiteLength);
 void pulseWhite(uint8_t wait);
 void rainbowFade2White(int wait, int rainbowLoops, int whiteLoops);
-void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const waitTimeMs);
+void colorRotate(uint32_t const &color, unsigned long const waitTimeMs);
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
@@ -60,7 +60,7 @@ void loop() {
 //  pulseWhite(5);
 
 //  rainbowFade2White(3, 3, 1);
-    colorRotate(strip.Color(255,   0,   0), 1000, 10000); // Red
+    colorRotate(strip.Color(255,   0,   0), 10000); // Red
 }
 
 double brightnessFunctionLinear(double x)
@@ -82,28 +82,28 @@ double normalizePosition(double const position, double const range)
     return fmod(fmod(position, range) + range, range) - (range / 2.);
 }
 
-void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const totalTimeMs)
+void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
 {
-    unsigned numberOfPixels = strip.numPixels();
+    unsigned const numberOfPixels = strip.numPixels();
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     unsigned long const startTime = millis();
     unsigned long deltaTime = 0;
-    for (unsigned long curTime = millis(); deltaTime < totalTimeMs; curTime = millis(), deltaTime = (curTime - startTime))
+    for (unsigned long curTime = millis(); deltaTime < totalTimeMs;)
     {
+        curTime = millis();
+        deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        double previousPos = normalizePosition(static_cast<double>(0) - .5 - deltaTimeDouble, numberOfPixelsDouble);
         for(unsigned i=0; i < numberOfPixels; ++i)
         {
-            double const nextPos = normalizePosition(static_cast<double>(i) + .5 - deltaTimeDouble, numberOfPixelsDouble);
+            double const normalizedPosition = normalizePosition(static_cast<double>(i) - deltaTimeDouble, numberOfPixelsDouble);
 
             uint32_t const colorMod = strip.Color(0,
                                                   0,
                                                   0,
                                                   strip.gamma8(static_cast<uint8_t>(255. *
-                (brightnessFunctionMountain(nextPos) - brightnessFunctionMountain(previousPos)
+                (brightnessFunctionMountain(normalizedPosition+.5) - brightnessFunctionMountain(normalizedPosition-.5)
                                                                                             ))));
             strip.setPixelColor(i, colorMod);
-            previousPos = nextPos;
         }
         strip.show();
     }
