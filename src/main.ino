@@ -68,6 +68,20 @@ double brightnessFunctionLinear(double x)
     return x;
 }
 
+double brightnessFunctionMountain(double const x)
+{
+    double const halfWidthHalfMaximum = 1.;
+    double const halfWidthHalfMaximumSqrt = sqrt(halfWidthHalfMaximum);
+    double const normalization = 2 * atan(1./(2 * halfWidthHalfMaximumSqrt));
+    return atan(x/halfWidthHalfMaximumSqrt) / normalization;
+}
+
+// move position to [-range/2, range/2]
+double normalizePosition(double const position, double const range)
+{
+    return fmod(fmod(position, range) + range, range) - (range / 2.);
+}
+
 void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned const waitTimeMs)
 {
     unsigned numberOfPixels = strip.numPixels();
@@ -79,9 +93,10 @@ void colorRotate(uint32_t const &color, unsigned const numberOfLoops, unsigned c
             uint32_t const colorMod = strip.Color(0,
                                                   0,
                                                   0,
-                                                  strip.gamma8(static_cast<uint8_t>(255. * brightnessFunctionLinear(
-                                                                                 static_cast<double>((i - currentLoopNumber) % numberOfPixels) / numberOfPixelsDouble // underflow!
-                                                                                 ))));
+                                                  strip.gamma8(static_cast<uint8_t>(255. *
+(brightnessFunctionMountain(normalizePosition(static_cast<double>(i - currentLoopNumber), numberOfPixelsDouble)) -
+            brightnessFunctionMountain(normalizePosition(static_cast<double>(i - 1 - currentLoopNumber), numberOfPixelsDouble))
+                                                                                            ))));
             strip.setPixelColor(i, colorMod);
             strip.show();
         }
