@@ -29,7 +29,6 @@ double normalizePosition(double const position, double const range);
 template<size_t numberOfPixels, BrightnessFunctionType brightnessFunction>
 void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const currentTime)
 {
-    uint8_t const * const colorArray = static_cast<uint8_t const *>(static_cast<void const *>(&color));
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     for(unsigned i=0; i < numberOfPixels; ++i)
     {
@@ -39,22 +38,12 @@ void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const 
 
         double const difference = nextBrightness - previousBrightness;
 
-//        uint32_t const colorNew = Adafruit_NeoPixel::Color(
-//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 16)) * difference)),
-//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 8)) * difference)),
-//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * difference)),
-//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * difference)));
-//        strip.setPixelColor(i, colorNew);
-
-        uint8_t const colorArrayNew[4] = {
-            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[0]) * difference)),
-            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[1]) * difference)),
-            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[2]) * difference)),
-            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[3]) * difference))
-        };
-
-        uint32_t const * const colorNew = static_cast<uint32_t const *>(static_cast<void const *>(&colorArrayNew));
-        strip.setPixelColor(i, *colorNew);
+        uint32_t const colorNew = Adafruit_NeoPixel::Color(
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 16)) * difference)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 8)) * difference)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * difference)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * difference)));
+        strip.setPixelColor(i, colorNew);
     }
     strip.show();
 }
