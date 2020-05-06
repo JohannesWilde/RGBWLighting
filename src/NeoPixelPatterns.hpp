@@ -8,6 +8,17 @@
 namespace NeoPixelPatterns
 {
 
+/**
+ * BrightnessFunctionType This type of function shall be used to calculate pixel brightness.
+ * Please note, that this does not calculate the brightness of a single pixel value itself,
+ * but is supposed to be the analytic integral of the desired color profile.
+ * This is so, that for f(x) the pixel brightness of pixel i can be calculated using
+ *  brightness(i) = F(i+.5) - F(i-.5),
+ * where F(x) is the brightness function [F(x) = int f(x) dx]. Please note that this
+ * function should be normalized, so that:
+ *  max(brightness(i)) <= 1,
+ *  min(brightness(i)) >= 0.
+ */
 typedef double(*BrightnessFunctionType)(double);
 
 double brightnessFunctionMountain(double const x);
@@ -16,8 +27,9 @@ double brightnessFunctionMountain(double const x);
 double normalizePosition(double const position, double const range);
 
 template<size_t numberOfPixels, BrightnessFunctionType brightnessFunction>
-void updateStrip(Adafruit_NeoPixel & strip, double const currentTime)
+void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const currentTime)
 {
+    uint8_t const * const colorArray = static_cast<uint8_t const *>(static_cast<void const *>(&color));
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     for(unsigned i=0; i < numberOfPixels; ++i)
     {
@@ -29,11 +41,15 @@ void updateStrip(Adafruit_NeoPixel & strip, double const currentTime)
 
         uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
 
-        uint32_t const colorMod = Adafruit_NeoPixel::Color(0,
-                                              0,
-                                              0,
-                                              Adafruit_NeoPixel::gamma8(colorVal));
-        strip.setPixelColor(i, colorMod);
+        uint8_t const colorArrayNew[4] = {
+            0,
+            0,
+            0,
+            Adafruit_NeoPixel::gamma8(colorVal)
+        };
+
+        uint32_t const * const colorNew = static_cast<uint32_t const *>(static_cast<void const *>(&colorArrayNew));
+        strip.setPixelColor(i, *colorNew);
     }
     strip.show();
 }
@@ -48,7 +64,7 @@ void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned 
         unsigned long const curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        updateStrip<numberOfPixels, brightnessFunction>(strip, deltaTimeDouble);
+        updateStrip<numberOfPixels, brightnessFunction>(strip, color, deltaTimeDouble);
     }
 }
 
