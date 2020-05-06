@@ -21,6 +21,13 @@ namespace NeoPixelPatterns
  */
 typedef double(*BrightnessFunctionType)(double);
 
+/**
+ * @brief brightnessFunctionMountain Integral for f(x) = b/(1 + x^2/a).
+ * @param x position
+ * @return brightness in [0,1]
+ * From normalization 1 != F(.5) - F(-.5) it results:
+ *  b = 1/(2*sqrt(a) * atan(1/(2*sqrt(a)))).
+ */
 double brightnessFunctionMountain(double const x);
 
 // move position to [-range/2, range/2)
@@ -36,13 +43,14 @@ void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const 
         double const previousBrightness = brightnessFunction(normalizedPosition-.5);
         double const nextBrightness = brightnessFunction(normalizedPosition+.5);
 
-        double const difference = nextBrightness - previousBrightness;
+        // As written above: brightness = F(i+.5) - F(i-.5)
+        double const brightness = nextBrightness - previousBrightness;
 
         uint32_t const colorNew = Adafruit_NeoPixel::Color(
-                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 16)) * difference)),
-                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 8)) * difference)),
-                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * difference)),
-                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * difference)));
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 16)) * brightness)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 8)) * brightness)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * brightness)),
+                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * brightness)));
         strip.setPixelColor(i, colorNew);
     }
     strip.show();
