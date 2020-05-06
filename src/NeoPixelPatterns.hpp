@@ -39,13 +39,18 @@ void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const 
 
         double const difference = nextBrightness - previousBrightness;
 
-        uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
+//        uint32_t const colorNew = Adafruit_NeoPixel::Color(
+//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 16)) * difference)),
+//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 8)) * difference)),
+//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * difference)),
+//                    Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * difference)));
+//        strip.setPixelColor(i, colorNew);
 
         uint8_t const colorArrayNew[4] = {
-            0,
-            0,
-            0,
-            Adafruit_NeoPixel::gamma8(colorVal)
+            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[0]) * difference)),
+            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[1]) * difference)),
+            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[2]) * difference)),
+            Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(colorArray[3]) * difference))
         };
 
         uint32_t const * const colorNew = static_cast<uint32_t const *>(static_cast<void const *>(&colorArrayNew));
@@ -59,12 +64,22 @@ void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned 
 {
     unsigned long const startTime = millis();
     unsigned long deltaTime = 0;
+    unsigned long lastUpdateTime = startTime;
+    unsigned updatesPerSecond = 0;
     while (deltaTime < totalTimeMs)
     {
         unsigned long const curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
         updateStrip<numberOfPixels, brightnessFunction>(strip, color, deltaTimeDouble);
+
+        if (curTime - lastUpdateTime >= 1000)
+        {
+            Serial.println(updatesPerSecond);
+            lastUpdateTime = curTime;
+            updatesPerSecond = 0;
+        }
+        ++updatesPerSecond;
     }
 }
 
