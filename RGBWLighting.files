@@ -1,1 +1,3 @@
+src/NeoPixelPatterns.cpp
+src/NeoPixelPatterns.hpp
 src/main.ino

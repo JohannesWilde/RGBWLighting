@@ -7,8 +7,7 @@
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
 
-// forward declarations
-void colorRotate(uint32_t const &color, unsigned long const waitTimeMs);
+#include "NeoPixelPatterns.hpp"
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
@@ -44,52 +43,9 @@ void setup() {
   strip.setBrightness(BRIGHTNESS); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
+
 void loop()
 {
-    colorRotate(strip.Color(255,   0,   0), 5000); // Red
+    NeoPixelPatterns::colorRotate<LED_COUNT>(Adafruit_NeoPixel::Color(255,   0,   0), 5000, strip); // Red
 }
 
-double brightnessFunctionMountain(double const x)
-{
-    double const halfWidthHalfMaximum = 2.;
-    double const halfWidthHalfMaximumSqrt = sqrt(halfWidthHalfMaximum);
-    double const normalization = 2. * atan(1./(2 * halfWidthHalfMaximumSqrt));
-    return atan(x/halfWidthHalfMaximumSqrt) / normalization;
-}
-
-// move position to [-range/2, range/2]
-double normalizePosition(double const position, double const range)
-{
-    return fmod(fmod(position, range) + range, range) - (range / 2.);
-}
-
-void colorRotate(uint32_t const &color, unsigned long const totalTimeMs)
-{
-    unsigned const numberOfPixels = strip.numPixels();
-    double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
-    unsigned long const startTime = millis();
-    unsigned long deltaTime = 0;
-    while (deltaTime < totalTimeMs)
-    {
-        unsigned long const curTime = millis();
-        deltaTime = (curTime - startTime);
-        double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        for(unsigned i=0; i < numberOfPixels; ++i)
-        {
-            double const normalizedPosition = normalizePosition(static_cast<double>(i) - deltaTimeDouble, numberOfPixelsDouble);
-            double const previousBrightness = brightnessFunctionMountain(normalizedPosition-.5);
-            double const nextBrightness = brightnessFunctionMountain(normalizedPosition+.5);
-
-            double const difference = nextBrightness - previousBrightness;
-
-            uint8_t const colorVal = static_cast<uint8_t>(255. * difference);
-
-            uint32_t const colorMod = strip.Color(0,
-                                                  0,
-                                                  0,
-                                                  strip.gamma8(colorVal));
-            strip.setPixelColor(i, colorMod);
-        }
-        strip.show();
-    }
-}
