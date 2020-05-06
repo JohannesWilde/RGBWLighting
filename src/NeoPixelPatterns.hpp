@@ -37,7 +37,7 @@ void updateStrip(Adafruit_NeoPixel & strip, double const currentTime)
 }
 
 template<size_t numberOfPixels>
-void colorRotate(uint32_t const &color, unsigned long const totalTimeMs, Adafruit_NeoPixel & strip)
+void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned long const totalTimeMs)
 {
     unsigned long const startTime = millis();
     unsigned long deltaTime = 0;

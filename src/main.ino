@@ -46,6 +46,6 @@ void setup() {
 
 void loop()
 {
-    NeoPixelPatterns::colorRotate<LED_COUNT>(Adafruit_NeoPixel::Color(255,   0,   0), 5000, strip); // Red
+    NeoPixelPatterns::updateStripLoop<LED_COUNT>(strip, Adafruit_NeoPixel::Color(255,   0,   0), 5000); // Red
 }
 
