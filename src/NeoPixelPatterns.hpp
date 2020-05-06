@@ -68,22 +68,12 @@ void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned 
 {
     unsigned long const startTime = millis();
     unsigned long deltaTime = 0;
-    unsigned long lastUpdateTime = startTime;
-    unsigned updatesPerSecond = 0;
     while (deltaTime < totalTimeMs)
     {
         unsigned long const curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
         updateStrip<numberOfPixels, brightnessFunction>(strip, color, deltaTimeDouble);
-
-        if (curTime - lastUpdateTime >= 1000)
-        {
-            Serial.println(updatesPerSecond);
-            lastUpdateTime = curTime;
-            updatesPerSecond = 0;
-        }
-        ++updatesPerSecond;
     }
 }
 
