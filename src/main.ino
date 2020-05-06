@@ -46,6 +46,6 @@ void setup() {
 
 void loop()
 {
-    NeoPixelPatterns::updateStripLoop<LED_COUNT>(strip, Adafruit_NeoPixel::Color(255,   0,   0), 5000); // Red
+    NeoPixelPatterns::updateStripLoop<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip, Adafruit_NeoPixel::Color(255,   0,   0), 5000); // Red
 }
 

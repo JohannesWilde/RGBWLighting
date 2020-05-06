@@ -8,20 +8,22 @@
 namespace NeoPixelPatterns
 {
 
+typedef double(*BrightnessFunctionType)(double);
+
 double brightnessFunctionMountain(double const x);
 
 // move position to [-range/2, range/2)
 double normalizePosition(double const position, double const range);
 
-template<size_t numberOfPixels>
+template<size_t numberOfPixels, BrightnessFunctionType brightnessFunction>
 void updateStrip(Adafruit_NeoPixel & strip, double const currentTime)
 {
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
     for(unsigned i=0; i < numberOfPixels; ++i)
     {
         double const normalizedPosition = normalizePosition(static_cast<double>(i) - currentTime, numberOfPixelsDouble);
-        double const previousBrightness = brightnessFunctionMountain(normalizedPosition-.5);
-        double const nextBrightness = brightnessFunctionMountain(normalizedPosition+.5);
+        double const previousBrightness = brightnessFunction(normalizedPosition-.5);
+        double const nextBrightness = brightnessFunction(normalizedPosition+.5);
 
         double const difference = nextBrightness - previousBrightness;
 
@@ -36,7 +38,7 @@ void updateStrip(Adafruit_NeoPixel & strip, double const currentTime)
     strip.show();
 }
 
-template<size_t numberOfPixels>
+template<size_t numberOfPixels, BrightnessFunctionType brightnessFunction>
 void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned long const totalTimeMs)
 {
     unsigned long const startTime = millis();
@@ -46,7 +48,7 @@ void updateStripLoop(Adafruit_NeoPixel & strip, uint32_t const &color, unsigned 
         unsigned long const curTime = millis();
         deltaTime = (curTime - startTime);
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        updateStrip<numberOfPixels>(strip, deltaTimeDouble);
+        updateStrip<numberOfPixels, brightnessFunction>(strip, deltaTimeDouble);
     }
 }
 
