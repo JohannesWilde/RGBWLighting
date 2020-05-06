@@ -37,11 +37,16 @@ template<size_t numberOfPixels, BrightnessFunctionType brightnessFunction>
 void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const currentTime)
 {
     double const numberOfPixelsDouble = static_cast<double>(numberOfPixels);
+    double previousBrightness = brightnessFunction(normalizePosition(0. - currentTime, numberOfPixelsDouble)-.5);
     for(unsigned i=0; i < numberOfPixels; ++i)
     {
         double const normalizedPosition = normalizePosition(static_cast<double>(i) - currentTime, numberOfPixelsDouble);
-        double const previousBrightness = brightnessFunction(normalizedPosition-.5);
         double const nextBrightness = brightnessFunction(normalizedPosition+.5);
+        // Where the brightness wraps around, previousBrightness has to be recalculated.
+        if (nextBrightness < previousBrightness)
+        {
+            previousBrightness = brightnessFunction(normalizedPosition-.5);
+        }
 
         // As written above: brightness = F(i+.5) - F(i-.5)
         double const brightness = nextBrightness - previousBrightness;
@@ -52,6 +57,8 @@ void updateStrip(Adafruit_NeoPixel & strip, uint32_t const &color, double const 
                     Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 0)) * brightness)),
                     Adafruit_NeoPixel::gamma8(static_cast<uint8_t>(static_cast<double>(static_cast<uint8_t>(color >> 24)) * brightness)));
         strip.setPixelColor(i, colorNew);
+
+        previousBrightness = nextBrightness;
     }
     strip.show();
 }
