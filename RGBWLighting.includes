@@ -8,5 +8,6 @@
 # user libraries
 ./libraries/Adafruit-GFX-Library
 ./libraries/Adafruit_NeoPixel
+./libraries/Adafruit_TouchScreen
 ./libraries/MCUFRIEND_kbv
 src

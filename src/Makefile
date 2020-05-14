@@ -4,7 +4,7 @@ BOARD_TAG = mega
 BOARD_SUB = atmega2560
 
 TARGET       = main
-ARDUINO_LIBS = Adafruit-GFX-Library Adafruit_NeoPixel MCUFRIEND_kbv SPI
+ARDUINO_LIBS = Adafruit-GFX-Library Adafruit_NeoPixel Adafruit_TouchScreen MCUFRIEND_kbv SPI
 USER_LIB_PATH := ../libraries
 
 CPPFLAGS += -std=gnu++1y

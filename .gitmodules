@@ -7,3 +7,6 @@
 [submodule "libraries/Adafruit-GFX-Library"]
 	path = libraries/Adafruit-GFX-Library
 	url = ssh://git@dwarfy:2289/arduino/libraries/Adafruit-GFX-Library.git
+[submodule "libraries/Adafruit_TouchScreen"]
+	path = libraries/Adafruit_TouchScreen
+	url = ssh://git@dwarfy:2289/arduino/libraries/Adafruit_TouchScreen.git
