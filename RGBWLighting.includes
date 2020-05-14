@@ -7,4 +7,5 @@
 
 # user libraries
 ./libraries/Adafruit_NeoPixel
+./libraries/MCUFRIEND_kbv
 src

@@ -1,3 +1,6 @@
 [submodule "libraries/Adafruit_NeoPixel"]
 	path = libraries/Adafruit_NeoPixel
 	url = ssh://git@dwarfy:2289/arduino/libraries/Adafruit_NeoPixel.git
+[submodule "libraries/MCUFRIEND_kbv"]
+	path = libraries/MCUFRIEND_kbv
+	url = ssh://git@dwarfy:2289/arduino/libraries/MCUFRIEND_kbv.git
