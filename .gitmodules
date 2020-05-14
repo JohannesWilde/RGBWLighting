@@ -4,3 +4,6 @@
 [submodule "libraries/MCUFRIEND_kbv"]
 	path = libraries/MCUFRIEND_kbv
 	url = ssh://git@dwarfy:2289/arduino/libraries/MCUFRIEND_kbv.git
+[submodule "libraries/Adafruit-GFX-Library"]
+	path = libraries/Adafruit-GFX-Library
+	url = ssh://git@dwarfy:2289/arduino/libraries/Adafruit-GFX-Library.git

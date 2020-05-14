@@ -3,9 +3,10 @@
 /usr/share/arduino/hardware/arduino/variants/mega
 
 # global libraries
-/usr/share/arduino/libraries/SD
+# /usr/share/arduino/libraries/SD
 
 # user libraries
+./libraries/Adafruit-GFX-Library
 ./libraries/Adafruit_NeoPixel
 ./libraries/MCUFRIEND_kbv
 src
