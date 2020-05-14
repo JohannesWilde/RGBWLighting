@@ -8,6 +8,7 @@
 #endif
 
 #include "NeoPixelPatterns.hpp"
+#include "RelaisDriver.hpp"
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
@@ -20,7 +21,7 @@
 #define BRIGHTNESS 50
 
 // Declare our NeoPixel strip object:
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
+static Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
 // Argument 1 = Number of pixels in NeoPixel strip
 // Argument 2 = Arduino pin number (most are valid)
 // Argument 3 = Pixel type flags, add together as needed:
@@ -38,14 +39,35 @@ void setup() {
 #endif
   // END of Trinket-specific code.
 
+  Driver::RelaisDriver<7, Driver::RelaisStateOn> powerRelais(Driver::RelaisStateOff);
+
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(BRIGHTNESS); // Set BRIGHTNESS to about 1/5 (max = 255)
-}
 
+  unsigned long const relaisTogglePeriod = 1000;
+  unsigned long const startTime = millis();
+
+  unsigned long latestRelaisToggleTime = startTime - relaisTogglePeriod;
+  powerRelais.turnOn();
+  while (true)
+  {
+      unsigned long const curTime = millis();
+      unsigned long deltaTime = (curTime - startTime);
+
+      if ((curTime - latestRelaisToggleTime) >= relaisTogglePeriod)
+      {
+          powerRelais.toggle();
+          latestRelaisToggleTime = curTime;
+      }
+
+      double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
+      NeoPixelPatterns::updateStrip<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip, Adafruit_NeoPixel::Color(0, 0, 0, 255), deltaTimeDouble);
+
+  }
+}
 
 void loop()
 {
-    NeoPixelPatterns::updateStripLoop<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip, Adafruit_NeoPixel::Color(0, 0, 0, 255), 5000); // Red
+    /* intentionally empty */
 }
-
