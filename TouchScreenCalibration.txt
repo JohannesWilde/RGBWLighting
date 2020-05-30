@@ -1,0 +1,31 @@
+                                                                TouchScreen.h GFX Calibration
+Making all control and bus pins INPUT_PULLUP
+Typical 30k Analog pullup with corresponding pin
+would read low when digital is written LOW
+e.g. reads ~25 for 300R X direction
+e.g. reads ~30 for 500R Y direction
+
+Testing : (A2, D8) = 22
+Testing : (A3, D9) = 33
+ID = 0x9486
+
+cx=148 cy=941 cz=482  X, Y, Pressure
+cx=155 cy=526 cz=569  X, Y, Pressure
+cx=150 cy=109 cz=490  X, Y, Pressure
+cx=518 cy=939 cz=506  X, Y, Pressure
+cx=520 cy=110 cz=523  X, Y, Pressure
+cx=887 cy=937 cz=442  X, Y, Pressure
+cx=890 cy=526 cz=541  X, Y, Pressure
+cx=888 cy=106 cz=489  X, Y, Pressure
+
+*** COPY-PASTE from Serial Terminal:
+const int XP=8,XM=A2,YP=A3,YM=9; //320x480 ID=0x9486
+const int TS_LEFT=126,TS_RT=912,TS_TOP=957,TS_BOT=89;
+
+PORTRAIT  CALIBRATION     320 x 480
+x = map(p.x, LEFT=126, RT=912, 0, 320)
+y = map(p.y, TOP=957, BOT=89, 0, 480)
+
+LANDSCAPE CALIBRATION     480 x 320
+x = map(p.y, LEFT=957, RT=89, 0, 480)
+y = map(p.x, TOP=912, BOT=126, 0, 320)
