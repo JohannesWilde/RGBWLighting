@@ -146,7 +146,6 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
     gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
     gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
     gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
-    int16_t         nVal;
 
     // From the element's ID we can determine which slider was updated.
     switch (pElem->nId) {
