@@ -62,34 +62,6 @@ gslc_tsElemRef* m_pSliderLedRed   = NULL;
 // ------------------------------------------------
 // Callback Methods
 // ------------------------------------------------
-// Common Button callback
-bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int16_t nY)
-{
-    // Typecast the parameters to match the GUI and element types
-    gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
-    gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
-    gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
-
-    if ( eTouch == GSLC_TOUCH_UP_IN ) {
-        // From the element's ID we can determine which button was pressed.
-        switch (pElem->nId) {
-        //<Button Enums !Start!>
-        case E_BTN_BACKLIGHT_DECREASE:
-            break;
-        case E_BTN_LED_BRIGHTNESS_DECREASE:
-            break;
-        case E_BTN_BACKLIGHT_INCREASE:
-            break;
-        case E_BTN_LED_BRIGHTNESS_INCREASE:
-            break;
-
-            //<Button Enums !End!>
-        default:
-            break;
-        }
-    }
-    return true;
-}
 //<Checkbox Callback !Start!>
 //<Checkbox Callback !End!>
 //<Keypad Callback !Start!>
@@ -100,38 +72,6 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
 //<Listbox Callback !End!>
 //<Draw Callback !Start!>
 //<Draw Callback !End!>
-
-// Callback function for when a slider's position has been updated
-bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
-{
-    gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
-    gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
-    gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
-    int16_t         nVal;
-
-    // From the element's ID we can determine which slider was updated.
-    switch (pElem->nId) {
-    //<Slider Enums !Start!>
-    case E_SLIDER_LED_RED:
-        // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedRed);
-        break;
-    case E_SLIDER_LED_GREEN:
-        // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedGreen);
-        break;
-    case E_SLIDER_LED_BLUE:
-        // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue);
-        break;
-
-        //<Slider Enums !End!>
-    default:
-        break;
-    }
-
-    return true;
-}
 //<Tick Callback !Start!>
 //<Tick Callback !End!>
 
