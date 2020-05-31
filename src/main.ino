@@ -29,6 +29,7 @@ static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); els
 
 // Declare our NeoPixel strip object:
 static Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
+static Driver::RelaisDriver<25, Driver::RelaisStateOn> powerRelais(Driver::RelaisStateOff);
 
 void setup()
 {
@@ -53,8 +54,6 @@ void setup()
 #endif
     // END of Trinket-specific code.
 
-    Driver::RelaisDriver<25, Driver::RelaisStateOn> powerRelais(Driver::RelaisStateOff);
-
     strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
     strip.show();            // Turn OFF all pixels ASAP
     strip.setBrightness(BRIGHTNESS); // Set BRIGHTNESS to about 1/5 (max = 255)
@@ -69,11 +68,11 @@ void setup()
         unsigned long const curTime = millis();
         unsigned long deltaTime = (curTime - startTime);
 
-        if ((curTime - latestRelaisToggleTime) >= relaisTogglePeriod)
-        {
-            powerRelais.toggle();
-            latestRelaisToggleTime = curTime;
-        }
+//        if ((curTime - latestRelaisToggleTime) >= relaisTogglePeriod)
+//        {
+//            powerRelais.toggle();
+//            latestRelaisToggleTime = curTime;
+//        }
 
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
         NeoPixelPatterns::updateStrip<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip, Adafruit_NeoPixel::Color(0, 0, 0, 255), deltaTimeDouble);
@@ -123,8 +122,12 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
         case E_BTN_BACKLIGHT_INCREASE:
             break;
         case E_BTN_LED_BRIGHTNESS_DECREASE:
+            strip.setBrightness(strip.getBrightness() - 1);
+            gslc_ElemXProgressSetVal(pGui, m_pProgressBacklight, strip.getBrightness());
             break;
         case E_BTN_LED_BRIGHTNESS_INCREASE:
+            strip.setBrightness(strip.getBrightness() + 1);
+            gslc_ElemXProgressSetVal(pGui, m_pProgressBacklight, strip.getBrightness());
             break;
 
             //<Button Enums !End!>
@@ -147,21 +150,25 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
     switch (pElem->nId) {
     //<Slider Enums !Start!>
     case E_SLIDER_LED_RED:
-        // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedRed);
-        break;
     case E_SLIDER_LED_GREEN:
-        // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedGreen);
-        break;
     case E_SLIDER_LED_BLUE:
+    {
         // Fetch the slider position
-        nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue);
+        // Calculate the new RGB value
+        gslc_tsColor const colRGB = (gslc_tsColor){
+                gslc_ElemXSliderGetPos(pGui,m_pSliderLedRed),
+                gslc_ElemXSliderGetPos(pGui,m_pSliderLedGreen),
+                gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue)
+        };
+        // Update the color box
+        gslc_ElemSetCol(pGui, m_pBoxLedColor, GSLC_COL_WHITE, colRGB, GSLC_COL_WHITE);
         break;
-
-        //<Slider Enums !End!>
+}
+    //<Slider Enums !End!>
     default:
+    {
         break;
+    }
     }
 
     return true;
