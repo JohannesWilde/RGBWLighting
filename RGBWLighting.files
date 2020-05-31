@@ -1,4 +1,5 @@
 src/NeoPixelPatterns.cpp
 src/NeoPixelPatterns.hpp
 src/RelaisDriver.hpp
+src/gui.cpp
 src/main.ino

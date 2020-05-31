@@ -10,3 +10,6 @@
 [submodule "libraries/Adafruit_TouchScreen"]
 	path = libraries/Adafruit_TouchScreen
 	url = ssh://git@dwarfy:2289/arduino/libraries/Adafruit_TouchScreen.git
+[submodule "libraries/GUIslice"]
+	path = libraries/GUIslice
+	url = ssh://git@dwarfy:2289/arduino/libraries/GUIslice.git
