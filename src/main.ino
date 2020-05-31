@@ -1,6 +1,7 @@
 
 #include <Arduino.h>
 #include "gui.hpp"
+#include "NeoPixel.hpp"
 
 // Define debug message function
 static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); else Serial.write(ch); return 0; }
@@ -30,6 +31,7 @@ static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); els
 // Declare our NeoPixel strip object:
 static Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
 static Driver::RelaisDriver<25, Driver::RelaisStateOn> powerRelais(Driver::RelaisStateOff);
+static NeoPixel::ColorRGBW ledColor = { .components={0, 0, 0, 255} };
 
 void setup()
 {
@@ -75,7 +77,7 @@ void setup()
 //        }
 
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
-        NeoPixelPatterns::updateStrip<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip, Adafruit_NeoPixel::Color(0, 0, 0, 255), deltaTimeDouble);
+        NeoPixelPatterns::updateStrip<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip,  ledColor.value, deltaTimeDouble);
 
 
         // ------------------------------------------------
@@ -154,14 +156,16 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
     case E_SLIDER_LED_BLUE:
     {
         // Fetch the slider position
+        uint8_t const red = gslc_ElemXSliderGetPos(pGui,m_pSliderLedRed);
+        uint8_t const green = gslc_ElemXSliderGetPos(pGui,m_pSliderLedGreen);
+        uint8_t const blue = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue);
         // Calculate the new RGB value
-        gslc_tsColor const colRGB = (gslc_tsColor){
-                gslc_ElemXSliderGetPos(pGui,m_pSliderLedRed),
-                gslc_ElemXSliderGetPos(pGui,m_pSliderLedGreen),
-                gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue)
-        };
+        gslc_tsColor const colRGB = (gslc_tsColor){red, green, blue};
         // Update the color box
         gslc_ElemSetCol(pGui, m_pBoxLedColor, GSLC_COL_WHITE, colRGB, GSLC_COL_WHITE);
+        ledColor.components.red = red;
+        ledColor.components.green = green;
+        ledColor.components.blue = blue;
         break;
 }
     //<Slider Enums !End!>
