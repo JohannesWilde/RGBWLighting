@@ -125,11 +125,11 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
             break;
         case E_BTN_LED_BRIGHTNESS_DECREASE:
             strip.setBrightness(strip.getBrightness() - 1);
-            gslc_ElemXProgressSetVal(pGui, m_pProgressBacklight, strip.getBrightness());
+            gslc_ElemXProgressSetVal(pGui, m_pProgressLedBrightness, strip.getBrightness());
             break;
         case E_BTN_LED_BRIGHTNESS_INCREASE:
             strip.setBrightness(strip.getBrightness() + 1);
-            gslc_ElemXProgressSetVal(pGui, m_pProgressBacklight, strip.getBrightness());
+            gslc_ElemXProgressSetVal(pGui, m_pProgressLedBrightness, strip.getBrightness());
             break;
 
             //<Button Enums !End!>
