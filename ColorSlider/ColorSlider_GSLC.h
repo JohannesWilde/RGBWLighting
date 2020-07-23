@@ -22,7 +22,6 @@
 //<Includes !Start!>
 // Include extended elements
 #include "elem/XCheckbox.h"
-#include "elem/XProgress.h"
 #include "elem/XSlider.h"
 //<Includes !End!>
 
@@ -46,12 +45,12 @@
 enum {E_PROJECT_OPTIONS,E_PG_MAIN};
 enum {E_BOX_LED_COLOR,E_BTN_BACKLIGHT_DECREASE,E_BTN_BACKLIGHT_INCREASE
       ,E_BTN_LED_BRIGHTNESS_DECREASE,E_BTN_LED_BRIGHTNESS_INCREASE
-      ,E_CHECK_BACKLIGHT,E_CHECK_POWER,E_CHECK_RELAIS,E_DRAW_LINE1
-      ,E_ELEM_BOX1,E_ELEM_CHECK4,E_ELEM_TEXT8,E_LABEL_BACKLIGHT
-      ,E_LABEL_BRIGHTNESS,E_LABEL_LED_BLUE,E_LABEL_LED_GREEN
-      ,E_LABEL_LED_RED,E_LABEL_POWER,E_LABEL_RELAIS,E_LBL_TITLE
-      ,E_PROGRESS_BACKLIGHT,E_PROGRESS_LED_BRIGHTNESS,E_SLIDER_LED_BLUE
-      ,E_SLIDER_LED_GREEN,E_SLIDER_LED_RED};
+      ,E_CHECK_BACKLIGHT,E_CHECK_LED_BRIGHTNESS,E_CHECK_POWER
+      ,E_CHECK_RELAIS,E_DRAW_LINE1,E_ELEM_BOX1,E_ELEM_TEXT8
+      ,E_LABEL_BACKLIGHT,E_LABEL_BRIGHTNESS,E_LABEL_LED_BLUE
+      ,E_LABEL_LED_GREEN,E_LABEL_LED_RED,E_LABEL_POWER,E_LABEL_RELAIS
+      ,E_LBL_TITLE,E_SLIDER_BACKLIGHT,E_SLIDER_LED_BLUE
+      ,E_SLIDER_LED_BRIGHTNESS,E_SLIDER_LED_GREEN,E_SLIDER_LED_RED};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN_TXT15,E_BUILTIN_TXT5,MAX_FONT};
 //<Enum !End!>
@@ -91,10 +90,10 @@ gslc_tsXSlider                  m_sXSlider2;
 gslc_tsXSlider                  m_sXSlider3;
 gslc_tsXCheckbox                m_asXCheck1;
 gslc_tsXCheckbox                m_asXCheck2;
-gslc_tsXProgress                m_sXBarGauge1;
-gslc_tsXProgress                m_sXBarGauge3;
 gslc_tsXCheckbox                m_asXCheck3;
 gslc_tsXCheckbox                m_asXCheck4;
+gslc_tsXSlider                  m_sXSlider4;
+gslc_tsXSlider                  m_sXSlider5;
 
 #define MAX_STR                 100
 
@@ -115,9 +114,9 @@ extern gslc_tsElemRef* m_pCheckBacklight;
 extern gslc_tsElemRef* m_pCheckLedBrightness;
 extern gslc_tsElemRef* m_pCheckPower;
 extern gslc_tsElemRef* m_pCheckRelais;
-extern gslc_tsElemRef* m_pProgressBacklight;
-extern gslc_tsElemRef* m_pProgressLedBrightness;
+extern gslc_tsElemRef* m_pSliderBacklight;
 extern gslc_tsElemRef* m_pSliderLedBlue;
+extern gslc_tsElemRef* m_pSliderLedBrightness;
 extern gslc_tsElemRef* m_pSliderLedGreen;
 extern gslc_tsElemRef* m_pSliderLedRed;
 //<Extern_References !End!>
@@ -274,11 +273,6 @@ void InitGUIslice_gen()
   gslc_ElemSetTxtCol(&m_gui,pElemRef,GSLC_COL_BLACK);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLACK,GSLC_COL_YELLOW,GSLC_COL_GRAY_LT1);
   m_pButtonBacklightDecrease = pElemRef;
-
-  // Create progress bar E_PROGRESS_BACKLIGHT 
-  pElemRef = gslc_ElemXProgressCreate(&m_gui,E_PROGRESS_BACKLIGHT,E_PG_MAIN,&m_sXBarGauge1,
-    (gslc_tsRect){175,50,256,20},0,100,0,GSLC_COL_GREEN,false);
-  m_pProgressBacklight = pElemRef;
   
   // create E_BTN_LED_BRIGHTNESS_DECREASE button with text label
   pElemRef = gslc_ElemCreateBtnTxt(&m_gui,E_BTN_LED_BRIGHTNESS_DECREASE,E_PG_MAIN,
@@ -286,11 +280,6 @@ void InitGUIslice_gen()
   gslc_ElemSetTxtCol(&m_gui,pElemRef,GSLC_COL_BLACK);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLACK,GSLC_COL_YELLOW,GSLC_COL_GRAY_LT1);
   m_pButtonLedBrightnessDecrease = pElemRef;
-
-  // Create progress bar E_PROGRESS_LED_BRIGHTNESS 
-  pElemRef = gslc_ElemXProgressCreate(&m_gui,E_PROGRESS_LED_BRIGHTNESS,E_PG_MAIN,&m_sXBarGauge3,
-    (gslc_tsRect){175,155,256,20},0,100,0,GSLC_COL_GREEN,false);
-  m_pProgressLedBrightness = pElemRef;
    
   // create checkbox E_CHECK_BACKLIGHT
   pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_BACKLIGHT,E_PG_MAIN,&m_asXCheck3,
@@ -298,8 +287,8 @@ void InitGUIslice_gen()
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pCheckBacklight = pElemRef;
    
-  // create checkbox E_ELEM_CHECK4
-  pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_ELEM_CHECK4,E_PG_MAIN,&m_asXCheck4,
+  // create checkbox E_CHECK_LED_BRIGHTNESS
+  pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_LED_BRIGHTNESS,E_PG_MAIN,&m_asXCheck4,
     (gslc_tsRect){110,155,20,20},false,GSLCX_CHECKBOX_STYLE_X,GSLC_COL_GRAY_DK3,false);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pCheckLedBrightness = pElemRef;
@@ -317,6 +306,20 @@ void InitGUIslice_gen()
   gslc_ElemSetTxtCol(&m_gui,pElemRef,GSLC_COL_BLACK);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLACK,GSLC_COL_YELLOW,GSLC_COL_GRAY_LT1);
   m_pButtonLedBrightnessIncrease = pElemRef;
+
+  // Create slider E_SLIDER_LED_BRIGHTNESS 
+  pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_LED_BRIGHTNESS,E_PG_MAIN,&m_sXSlider4,
+          (gslc_tsRect){175,155,256,20},0,255,127,5,false);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLUE);
+  gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  m_pSliderLedBrightness = pElemRef;
+
+  // Create slider E_SLIDER_BACKLIGHT 
+  pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_BACKLIGHT,E_PG_MAIN,&m_sXSlider5,
+          (gslc_tsRect){175,50,256,20},0,255,127,5,false);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLUE);
+  gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  m_pSliderBacklight = pElemRef;
 //<InitGUI !End!>
 
 //<Startup !Start!>

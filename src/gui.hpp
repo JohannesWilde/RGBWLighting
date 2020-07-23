@@ -46,12 +46,12 @@
 enum {E_PROJECT_OPTIONS,E_PG_MAIN};
 enum {E_BOX_LED_COLOR,E_BTN_BACKLIGHT_DECREASE,E_BTN_BACKLIGHT_INCREASE
       ,E_BTN_LED_BRIGHTNESS_DECREASE,E_BTN_LED_BRIGHTNESS_INCREASE
-      ,E_CHECK_BACKLIGHT,E_CHECK_POWER,E_CHECK_RELAIS,E_DRAW_LINE1
-      ,E_ELEM_BOX1,E_ELEM_CHECK4,E_ELEM_TEXT8,E_LABEL_BACKLIGHT
-      ,E_LABEL_BRIGHTNESS,E_LABEL_LED_BLUE,E_LABEL_LED_GREEN
-      ,E_LABEL_LED_RED,E_LABEL_POWER,E_LABEL_RELAIS,E_LBL_TITLE
-      ,E_PROGRESS_BACKLIGHT,E_PROGRESS_LED_BRIGHTNESS,E_SLIDER_LED_BLUE
-      ,E_SLIDER_LED_GREEN,E_SLIDER_LED_RED};
+      ,E_CHECK_BACKLIGHT,E_CHECK_LED_BRIGHTNESS,E_CHECK_POWER
+      ,E_CHECK_RELAIS,E_DRAW_LINE1,E_ELEM_BOX1,E_ELEM_TEXT8
+      ,E_LABEL_BACKLIGHT,E_LABEL_BRIGHTNESS,E_LABEL_LED_BLUE
+      ,E_LABEL_LED_GREEN,E_LABEL_LED_RED,E_LABEL_POWER,E_LABEL_RELAIS
+      ,E_LBL_TITLE,E_SLIDER_BACKLIGHT,E_SLIDER_LED_BLUE
+      ,E_SLIDER_LED_BRIGHTNESS,E_SLIDER_LED_GREEN,E_SLIDER_LED_RED};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN_TXT15,E_BUILTIN_TXT5,MAX_FONT};
 //<Enum !End!>
@@ -91,10 +91,10 @@ extern gslc_tsXSlider                  m_sXSlider2;
 extern gslc_tsXSlider                  m_sXSlider3;
 extern gslc_tsXCheckbox                m_asXCheck1;
 extern gslc_tsXCheckbox                m_asXCheck2;
-extern gslc_tsXProgress                m_sXBarGauge1;
-extern gslc_tsXProgress                m_sXBarGauge3;
 extern gslc_tsXCheckbox                m_asXCheck3;
 extern gslc_tsXCheckbox                m_asXCheck4;
+extern gslc_tsXSlider                  m_sXSlider4;
+extern gslc_tsXSlider                  m_sXSlider5;
 
 #define MAX_STR                 100
 
@@ -115,9 +115,9 @@ extern gslc_tsElemRef* m_pCheckBacklight;
 extern gslc_tsElemRef* m_pCheckLedBrightness;
 extern gslc_tsElemRef* m_pCheckPower;
 extern gslc_tsElemRef* m_pCheckRelais;
-extern gslc_tsElemRef* m_pProgressBacklight;
-extern gslc_tsElemRef* m_pProgressLedBrightness;
+extern gslc_tsElemRef* m_pSliderBacklight;
 extern gslc_tsElemRef* m_pSliderLedBlue;
+extern gslc_tsElemRef* m_pSliderLedBrightness;
 extern gslc_tsElemRef* m_pSliderLedGreen;
 extern gslc_tsElemRef* m_pSliderLedRed;
 //<Extern_References !End!>

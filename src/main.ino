@@ -115,21 +115,35 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
     gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
     gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
 
+    Serial.print("Button pressed: ");
+
     if ( eTouch == GSLC_TOUCH_UP_IN ) {
         // From the element's ID we can determine which button was pressed.
         switch (pElem->nId) {
         //<Button Enums !Start!>
         case E_BTN_BACKLIGHT_DECREASE:
+            Serial.print("Backlight decrease\n");
             break;
         case E_BTN_BACKLIGHT_INCREASE:
+            Serial.print("Backlight increase\n");
             break;
         case E_BTN_LED_BRIGHTNESS_DECREASE:
+            Serial.print("Led brightness decrease\n");
             strip.setBrightness(strip.getBrightness() - 1);
-            gslc_ElemXProgressSetVal(pGui, m_pProgressLedBrightness, strip.getBrightness());
+            gslc_ElemXSliderSetPos(pGui, m_pSliderLedBrightness, strip.getBrightness());
             break;
         case E_BTN_LED_BRIGHTNESS_INCREASE:
+            Serial.print("Led brightness increase\n");
             strip.setBrightness(strip.getBrightness() + 1);
-            gslc_ElemXProgressSetVal(pGui, m_pProgressLedBrightness, strip.getBrightness());
+            gslc_ElemXSliderSetPos(pGui, m_pSliderLedBrightness, strip.getBrightness());
+            break;
+        case E_CHECK_POWER:
+            break;
+        case E_CHECK_RELAIS:
+            break;
+        case E_CHECK_BACKLIGHT:
+            break;
+        case E_CHECK_LED_BRIGHTNESS:
             break;
 
             //<Button Enums !End!>

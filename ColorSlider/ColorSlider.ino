@@ -30,9 +30,9 @@ gslc_tsElemRef* m_pCheckBacklight = NULL;
 gslc_tsElemRef* m_pCheckLedBrightness= NULL;
 gslc_tsElemRef* m_pCheckPower     = NULL;
 gslc_tsElemRef* m_pCheckRelais    = NULL;
-gslc_tsElemRef* m_pProgressBacklight= NULL;
-gslc_tsElemRef* m_pProgressLedBrightness= NULL;
+gslc_tsElemRef* m_pSliderBacklight= NULL;
 gslc_tsElemRef* m_pSliderLedBlue  = NULL;
+gslc_tsElemRef* m_pSliderLedBrightness= NULL;
 gslc_tsElemRef* m_pSliderLedGreen = NULL;
 gslc_tsElemRef* m_pSliderLedRed   = NULL;
 //<Save_References !End!>
@@ -63,7 +63,6 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
         break;
       case E_BTN_LED_BRIGHTNESS_INCREASE:
         break;
-
 //<Button Enums !End!>
       default:
         break;
@@ -106,6 +105,14 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
       nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBlue);
       break;
 
+    case E_SLIDER_LED_BRIGHTNESS:
+      // Fetch the slider position
+      nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBrightness);
+      break;
+    case E_SLIDER_BACKLIGHT:
+      // Fetch the slider position
+      nVal = gslc_ElemXSliderGetPos(pGui,m_pSliderBacklight);
+      break;
 //<Slider Enums !End!>
     default:
       break;
