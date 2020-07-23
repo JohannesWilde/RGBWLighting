@@ -196,12 +196,14 @@ void InitGUIslice_gen()
   pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_POWER,E_PG_MAIN,&m_asXCheck1,
     (gslc_tsRect){110,80,20,20},false,GSLCX_CHECKBOX_STYLE_X,GSLC_COL_GRAY_DK3,false);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
+  gslc_ElemXCheckboxSetStateFunc(&m_gui, pElemRef, &CbCheckbox);
   m_pCheckPower = pElemRef;
 
   // create checkbox E_CHECK_RELAIS
   pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_RELAIS,E_PG_MAIN,&m_asXCheck2,
     (gslc_tsRect){110,110,20,20},false,GSLCX_CHECKBOX_STYLE_X,GSLC_COL_GRAY_DK3,false);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
+  gslc_ElemXCheckboxSetStateFunc(&m_gui, pElemRef, &CbCheckbox);
   m_pCheckRelais = pElemRef;
 
   // create E_BTN_BACKLIGHT_DECREASE button with text label
@@ -222,12 +224,14 @@ void InitGUIslice_gen()
   pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_BACKLIGHT,E_PG_MAIN,&m_asXCheck3,
     (gslc_tsRect){110,50,20,20},false,GSLCX_CHECKBOX_STYLE_X,GSLC_COL_GRAY_DK3,false);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
+  gslc_ElemXCheckboxSetStateFunc(&m_gui, pElemRef, &CbCheckbox);
   m_pCheckBacklight = pElemRef;
 
   // create checkbox E_CHECK_LED_BRIGHTNESS
   pElemRef = gslc_ElemXCheckboxCreate(&m_gui,E_CHECK_LED_BRIGHTNESS,E_PG_MAIN,&m_asXCheck4,
     (gslc_tsRect){110,155,20,20},false,GSLCX_CHECKBOX_STYLE_X,GSLC_COL_GRAY_DK3,false);
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GRAY_DK3,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
+  gslc_ElemXCheckboxSetStateFunc(&m_gui, pElemRef, &CbCheckbox);
   m_pCheckLedBrightness = pElemRef;
 
   // create E_BTN_BACKLIGHT_INCREASE button with text label

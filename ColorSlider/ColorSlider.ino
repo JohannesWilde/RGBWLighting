@@ -70,8 +70,38 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
   }
   return true;
 }
-//<Checkbox Callback !Start!>
-//<Checkbox Callback !End!>
+// Checkbox / radio callbacks
+// - Creating a callback function is optional, but doing so enables you to
+//   detect changes in the state of the elements.
+bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
+{
+  gslc_tsGui*     pGui      = (gslc_tsGui*)(pvGui);
+  gslc_tsElemRef* pElemRef  = (gslc_tsElemRef*)(pvElemRef);
+  gslc_tsElem*    pElem     = gslc_GetElemFromRef(pGui,pElemRef);
+  if (pElemRef == NULL) {
+    return false;
+  }
+  
+  boolean bChecked = gslc_ElemXCheckboxGetState(pGui,pElemRef);
+
+  // Determine which element issued the callback
+  switch (pElem->nId) {
+//<Checkbox Enums !Start!>
+    case E_CHECK_POWER:
+      break;
+    case E_CHECK_RELAIS:
+      break;
+    case E_CHECK_BACKLIGHT:
+      break;
+    case E_CHECK_LED_BRIGHTNESS:
+      break;
+
+//<Checkbox Enums !End!>
+    default:
+      break;
+  } // switch
+  return true;
+}
 //<Keypad Callback !Start!>
 //<Keypad Callback !End!>
 //<Spinner Callback !Start!>

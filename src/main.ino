@@ -137,15 +137,6 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
             strip.setBrightness(strip.getBrightness() + 1);
             gslc_ElemXSliderSetPos(pGui, m_pSliderLedBrightness, strip.getBrightness());
             break;
-        case E_CHECK_POWER:
-            break;
-        case E_CHECK_RELAIS:
-            break;
-        case E_CHECK_BACKLIGHT:
-            break;
-        case E_CHECK_LED_BRIGHTNESS:
-            break;
-
             //<Button Enums !End!>
         default:
             break;
@@ -194,6 +185,54 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
     }
     }
 
+    return true;
+}
+
+bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
+{
+    // Typecast the parameters to match the GUI and element types
+//    gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
+//    gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
+//    gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
+
+    Serial.print("Check Box pressed: ");
+
+    Serial.print(bState ? "on " : "off ");
+
+    Serial.print(nSelId);
+    Serial.print(" ");
+
+    // From the element's ID we can determine which button was pressed.
+//    switch (pElem->nId)
+    switch (nSelId)
+    {
+    //<CheckBox Enums !Start!>
+    case E_CHECK_POWER:
+    {
+        Serial.print("power\n");
+        break;
+    }
+    case E_CHECK_RELAIS:
+    {
+        Serial.print("relais\n");
+        break;
+    }
+    case E_CHECK_BACKLIGHT:
+    {
+        Serial.print("backlight\n");
+        break;
+    }
+    case E_CHECK_LED_BRIGHTNESS:
+    {
+        Serial.print("led\n");
+        break;
+    }
+    //<Button Enums !End!>
+    default:
+    {
+        break;
+    }
+    }
     return true;
 }
 
