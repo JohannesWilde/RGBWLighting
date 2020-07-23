@@ -180,7 +180,13 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
         ledColor.components.green = green;
         ledColor.components.blue = blue;
         break;
-}
+    }
+    case E_SLIDER_LED_BRIGHTNESS:
+    {
+        uint8_t const brightness = gslc_ElemXSliderGetPos(pGui,m_pSliderLedBrightness);
+        strip.setBrightness(brightness);
+        break;
+    }
     //<Slider Enums !End!>
     default:
     {
