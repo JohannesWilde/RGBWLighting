@@ -13,3 +13,6 @@
 [submodule "libraries/GUIslice"]
 	path = libraries/GUIslice
 	url = ssh://git@dwarfy:2289/arduino/libraries/GUIslice.git
+[submodule "libraries/ArduinoDrivers"]
+	path = libraries/ArduinoDrivers
+	url = ssh://git@dwarfy:2289/arduino/ArduinoDrivers.git

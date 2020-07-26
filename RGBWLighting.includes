@@ -6,6 +6,7 @@
 # /usr/share/arduino/libraries/SD
 
 # user libraries
+./libraries/ArduinoDrivers
 ./libraries/Adafruit-GFX-Library
 ./libraries/Adafruit_NeoPixel
 ./libraries/Adafruit_TouchScreen
