@@ -1,4 +1,6 @@
 
+#include "arduinoMega.hpp"
+
 #include <Arduino.h>
 #include "gui.hpp"
 #include "NeoPixel.hpp"
@@ -32,6 +34,9 @@ static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); els
 static Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
 static Driver::RelaisDriver<25, Driver::RelaisStateOn> powerRelais(Driver::RelaisStateOff);
 static NeoPixel::ColorRGBW ledColor = { .components={0, 0, 0, 255} };
+
+static ArduinoMega::D23 powerButton;
+// todo: Initialize [OUTPUT, LOW,...], add wrapper
 
 void setup()
 {
@@ -76,6 +81,14 @@ void setup()
 //            latestRelaisToggleTime = curTime;
 //        }
 
+        if ((curTime - latestRelaisToggleTime) >= 1000)
+        {
+            latestRelaisToggleTime = curTime;
+            powerButton.setType(AvrInputOutput::PinType::InputPullup);
+            AvrInputOutput::PinState const powerSwitch = powerButton.readPin();
+            Serial.println((powerSwitch == AvrInputOutput::PinState::High) ? "open" : "closed");
+        }
+
         double const deltaTimeDouble = static_cast<double>(deltaTime) / 500.;
         NeoPixelPatterns::updateStrip<LED_COUNT, NeoPixelPatterns::brightnessFunctionMountain>(strip,  ledColor.value, deltaTimeDouble);
 
@@ -102,6 +115,14 @@ void loop()
     // Should never be reached.
 }
 
+
+// ------------------------------------------------
+// GUI setup
+// ------------------------------------------------
+
+void setupGuiAccordingToHardware()
+{
+}
 
 // ------------------------------------------------
 // Callback Methods
