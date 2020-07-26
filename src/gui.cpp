@@ -251,14 +251,14 @@ void InitGUIslice_gen()
   // Create slider E_SLIDER_LED_BRIGHTNESS
   pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_LED_BRIGHTNESS,E_PG_MAIN,&m_sXSlider4,
           (gslc_tsRect){175,155,256,20},0,255,127,5,false);
-  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLUE);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLACK);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   m_pSliderLedBrightness = pElemRef;
 
   // Create slider E_SLIDER_BACKLIGHT
   pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_BACKLIGHT,E_PG_MAIN,&m_sXSlider5,
           (gslc_tsRect){175,50,256,20},0,255,127,5,false);
-  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLUE);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLACK);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   m_pSliderBacklight = pElemRef;
 //<InitGUI !End!>
