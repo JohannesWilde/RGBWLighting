@@ -203,7 +203,6 @@ bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
     Serial.print(" ");
 
     // From the element's ID we can determine which button was pressed.
-//    switch (pElem->nId)
     switch (nSelId)
     {
     //<CheckBox Enums !Start!>
