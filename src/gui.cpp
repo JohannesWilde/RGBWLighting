@@ -130,6 +130,7 @@ void InitGUIslice_gen()
           (gslc_tsRect){200,195,256,20},0,255,255,5,false);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_RED,10,5,GSLC_COL_RED);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_RED,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pSliderLedRed = pElemRef;
 
   // Create E_LABEL_LED_GREEN text label
@@ -143,6 +144,7 @@ void InitGUIslice_gen()
           (gslc_tsRect){200,225,256,20},0,255,128,5,false);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_GREEN,10,5,GSLC_COL_GREEN);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_GREEN,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pSliderLedGreen = pElemRef;
 
   // Create E_LABEL_LED_BLUE text label
@@ -156,6 +158,7 @@ void InitGUIslice_gen()
           (gslc_tsRect){200,255,256,20},0,255,0,5,false);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLUE,10,5,GSLC_COL_BLUE);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pSliderLedBlue = pElemRef;
 
   // Create E_ELEM_TEXT8 text label
@@ -253,6 +256,7 @@ void InitGUIslice_gen()
           (gslc_tsRect){175,155,256,20},0,255,127,5,false);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLACK);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLACK,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pSliderLedBrightness = pElemRef;
 
   // Create slider E_SLIDER_BACKLIGHT
@@ -260,6 +264,7 @@ void InitGUIslice_gen()
           (gslc_tsRect){175,50,256,20},0,255,127,5,false);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLACK,10,5,GSLC_COL_BLACK);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLACK,GSLC_COL_GRAY_LT2,GSLC_COL_YELLOW);
   m_pSliderBacklight = pElemRef;
 //<InitGUI !End!>
 
