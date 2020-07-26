@@ -195,35 +195,32 @@ bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
 //    gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
 //    gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
 
-    Serial.print("Check Box pressed: ");
-
-    Serial.print(bState ? "on " : "off ");
-
-    Serial.print(nSelId);
-    Serial.print(" ");
-
     // From the element's ID we can determine which button was pressed.
     switch (nSelId)
     {
     //<CheckBox Enums !Start!>
     case E_CHECK_POWER:
     {
-        Serial.print("power\n");
         break;
     }
     case E_CHECK_RELAIS:
     {
-        Serial.print("relais\n");
+        if (bState)
+        {
+            powerRelais.turnOn();
+        }
+        else
+        {
+            powerRelais.turnOff();
+        }
         break;
     }
     case E_CHECK_BACKLIGHT:
     {
-        Serial.print("backlight\n");
         break;
     }
     case E_CHECK_LED_BRIGHTNESS:
     {
-        Serial.print("led\n");
         break;
     }
     //<Button Enums !End!>
