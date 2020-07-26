@@ -191,7 +191,7 @@ void InitGUIslice_gen()
   // Create slider E_SLIDER_LED_RED 
   pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_LED_RED,E_PG_MAIN,&m_sXSlider1,
           (gslc_tsRect){200,195,256,20},0,255,255,5,false);
-  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,true,GSLC_COL_RED,10,5,GSLC_COL_RED);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_RED,10,5,GSLC_COL_RED);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   m_pSliderLedRed = pElemRef;
   
@@ -204,7 +204,7 @@ void InitGUIslice_gen()
   // Create slider E_SLIDER_LED_GREEN 
   pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_LED_GREEN,E_PG_MAIN,&m_sXSlider2,
           (gslc_tsRect){200,225,256,20},0,255,128,5,false);
-  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,true,GSLC_COL_GREEN,10,5,GSLC_COL_GREEN);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_GREEN,10,5,GSLC_COL_GREEN);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   m_pSliderLedGreen = pElemRef;
   
@@ -217,7 +217,7 @@ void InitGUIslice_gen()
   // Create slider E_SLIDER_LED_BLUE 
   pElemRef = gslc_ElemXSliderCreate(&m_gui,E_SLIDER_LED_BLUE,E_PG_MAIN,&m_sXSlider3,
           (gslc_tsRect){200,255,256,20},0,255,0,5,false);
-  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,true,GSLC_COL_BLUE,10,5,GSLC_COL_BLUE);
+  gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLUE,10,5,GSLC_COL_BLUE);
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   m_pSliderLedBlue = pElemRef;
   
